@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TodoController extends Controller
 {
@@ -14,7 +15,8 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        $todos = DB::table('todos')->get();
+        return view('app', ['todos' => $todos]);
     }
 
     /**
@@ -24,7 +26,6 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -35,7 +36,14 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'status' => 'in:completed,archived,active'
+        ]);
+        $show = Todo::create($validatedData);
+
+        return redirect('/todos')->with('success', 'Todo is successfully saved.');
     }
 
     /**

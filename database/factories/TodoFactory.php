@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Todo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TodoFactory extends Factory
 {
+
+    protected $model = Todo::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,9 +21,9 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->sentence,
-            'description' => fake()->words(500),
-            'status' => fake()->randomElement(['completed', 'archived', 'active']),
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->words(500),
+            'status' => $this->faker->randomElement(['completed', 'archived', 'active']),
         ];
     }
 }
